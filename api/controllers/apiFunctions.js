@@ -117,33 +117,3 @@ exports.changePasswod = function(req,res){
         });
     });
 }
-
-exports.addRefilling = function(req,res){
-    //inputs userID,UVID,refillDate,refillAmount,refillQuantity,
-    
-    //CHECK if session belongs to user id
-    //Check if UVID belongs to this session
-    
-    //INSERT new doc to refillDetails
-    
-}
-
-exports.updateRefilling = function(req,res){
-    //inputs userID,UVID,refillDate,refillAmount,refillQuantity,
-    
-    //CHECK if session belongs to user id
-    //Check if UVID belongs to this session
-    
-    //update new doc to refillDetails
-    
-}
-
-exports.deleteRefilling = function(req,res){
-    //inputs UVID
-    
-    //CHECK if session belongs to user id
-    //Check if UVID belongs to this session
-    
-    //delete doc to refillDetails
-    
-}

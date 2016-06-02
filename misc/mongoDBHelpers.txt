@@ -1,2 +1,0 @@
-db.userDetails.createIndex( { "user_strEmailid": 1 }, { unique: true } )
-db.userDetails.createIndex( { "user_strPhoneNo": 1 }, { unique: true } )

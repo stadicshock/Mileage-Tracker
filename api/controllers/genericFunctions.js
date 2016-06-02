@@ -59,7 +59,7 @@ exports.genericCRUD=function(callback,action,collectionName,queryParams,updatePa
                 })
             break;
             
-        case "add":
+        case "asdasd":
             mango.connect(config.db, function(err, db) {
             if(err) { 
                 callback(false,"Unable to connect database server")

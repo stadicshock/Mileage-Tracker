@@ -1,7 +1,7 @@
-var mango = require("mongodb").MongoClient;
-var config = require("../../config").config;
-var helperFn = require("./helperFunctions");
-var genericFn = require("./genericFunctions");
+var mango       = require("mongodb").MongoClient;
+var config      = require("../../config").config;
+var helperFn    = require("./helperFunctions");
+var genericFn   = require("./genericFunctions");
 
 exports.signup = function (req, res) {
     //inputs name,emailid,phoneNo,password

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>		
+		<title>Sign Up</title>
+		<link rel="stylesheet" type="text/css" href="/signupComponents/css/normalize.css" />
+		<link rel="stylesheet" type="text/css" href="/signupComponents/css/demo.css" />
+		<link rel="stylesheet" type="text/css" href="/signupComponents/css/component.css" />
+		<link rel="stylesheet" type="text/css" href="/signupComponents/css/cs-select.css" />
+		<link rel="stylesheet" type="text/css" href="/signupComponents/css/cs-skin-boxes.css" />
+		<script src="/signupComponents/js/modernizr.custom.js"></script>
+		<script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
+		<script>
+		function signup(){
+			if(document.getElementById("txtPass").value!=document.getElementById("txtPass2").value){
+				alert("password not matched");
+				return ;
+			}
+			$.ajax({
+				method: "POST",
+				url: "/signup",
+				data: { name: document.getElementById("txtName").value, emailId: document.getElementById("txtName").value,
+				phoneNo:document.getElementById("txtPhNo").value,password:document.getElementById("txtPass").value}
+			})
+			.done(function( res ) {
+				if(res.status=="ok"){
+					
+				}
+			});	
+		}		
+		</script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="fs-form-wrap" id="fs-form-wrap">
+				<div class="fs-title">
+					<h1>Sign UP</h1>
+					<div class="codrops-top">
+						<a class="codrops-icon codrops-icon-prev" href="#"><span>Home</span></a>
+					</div>
+				</div>
+				<form id="myform" class="fs-form fs-form-full" autocomplete="off" >
+					<ol class="fs-fields">
+						<li>
+							<label class="fs-field-label fs-anim-upper" for="q1">What's your name?</label>
+							<input class="fs-anim-lower" id="txtName" name="q1" type="text" placeholder="Marshall Bruce Mathers" required/>
+						</li>
+						<li>
+							<label class="fs-field-label fs-anim-upper" for="q2" data-info="We won't send you spam, we promise...">What's your email address?</label>
+							<input class="fs-anim-lower" id="txtEmail" name="q2" type="email" placeholder="marshall@gmail.com" required/>
+						</li>
+						<li>
+							<label class="fs-field-label fs-anim-upper" for="q1">What's your phone number?</label>
+							<input class="fs-anim-lower" id="txtPhNo" name="q1" type="text" placeholder="8792146665" required/>
+						</li>
+						<li>
+							<label class="fs-field-label fs-anim-upper" for="q1">Enter new password</label>
+							<input class="fs-anim-lower" id="txtPass" name="q1" type="password" placeholder="**********" required/>
+						</li>
+						<li>
+							<label class="fs-field-label fs-anim-upper" for="q1">Confirm password</label>
+							<input class="fs-anim-lower" id="txtPass2" name="q1" type="password" placeholder="**********" required/>
+						</li>
+					</ol><!-- /fs-fields -->
+					<button class="fs-submit" type="button" onclick="signup()">Sign up</button>
+				</form><!-- /fs-form -->
+			</div><!-- /fs-form-wrap -->
+
+		
+		</div><!-- /container -->
+		<script src="/signupComponents/js/classie.js"></script>
+		<script src="/signupComponents/js/selectFx.js"></script>
+		<script src="/signupComponents/js/fullscreenForm.js"></script>
+		<script>
+			(function() {
+				var formWrap = document.getElementById( 'fs-form-wrap' );
+
+				[].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {	
+					new SelectFx( el, {
+						stickyPlaceholder: false,
+						onChange: function(val){
+							document.querySelector('span.cs-placeholder').style.backgroundColor = val;
+						}
+					});
+				} );
+
+				new FForm( formWrap, {
+					onReview : function() {
+						classie.add( document.body, 'overview' ); // for demo purposes only
+					}
+				} );
+			})();
+		</script>
+	</body>
+</html>

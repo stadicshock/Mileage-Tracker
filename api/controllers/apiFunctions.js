@@ -117,3 +117,10 @@ exports.changePasswod = function(req,res){
         });
     });
 }
+
+exports.genericfunctions = function(req,res){
+    var params = req.body;
+    genericFn.genericCRUD(params.action,params.collectionName,params.insertObj,params.queryParams,params.updateParams, function(err,result){
+       res.json({"result":result})
+    });
+}

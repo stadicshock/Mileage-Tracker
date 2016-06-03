@@ -1,5 +1,6 @@
 var mango       = require("mongodb").MongoClient;
 var config      = require("../../config").config;
+var helperFn    = require("./helperFunctions");
 
 var crypto = require('crypto'),
    algorithm = 'aes-256-ctr',
@@ -25,57 +26,77 @@ exports.alreadyExist=function(err,key) {
     }
 }
 
-exports.genericCRUD=function(callback,action,collectionName,queryParams,updateParams,insertObj) {
-    switch (action) {
-        case "getAll":
-                mango.connect(config.db, function(err, db) {
-                if(err) { 
-                    callback(false,"Unable to connect database server")
-                }
-                var collection = db.collection(collectionName);
-                collection.find(queryParams, function(err, item) {
+exports.genericCRUD=function(action,collectionName,insertObj,queryParams,updateParams,callback) {
+    mango.connect(config.db, function(err, db) {
+        if(err) { 
+            callback(false,"Unable to connect database server")
+        }
+        var collection = db.collection(collectionName);
+        switch (action) {
+
+            case "getAll":
+                collection.find(JSON.parse(queryParams), function(err, item) {
+                    if(err){
+                        callback(false,"unable to get data");
+                    }else{
+                        item.toArray(callback);
+                    }
+                });
+                break;
+
+            case "getOne":
+                collection.findOne(JSON.parse(queryParams), function(err, item) {
                     if(err){
                         callback(false,"unable to get data");
                     }else{
                         callback(null,item)
                     }
                 });
-                })
+
             break;
-            
-        case "getOne":
-                mango.connect(config.db, function(err, db) {
-                if(err) { 
-                    callback(false,"Unable to connect database server")
-                }
+
+            case "add":
+
                 var collection = db.collection(collectionName);
-                collection.findOne(queryParams, function(err, item) {
-                    if(err){
-                        callback(false,"unable to get data");
-                    }else{
-                        callback(null,item)
-                    }
+                helperFn.generateId(collectionName, function (err, newId) {
+                    var document=JSON.parse(insertObj);
+                    document["_id"] = newId;
+                    collection.insert(document, function (err, result) {
+                        if (err) {
+                            var errmsg = err.errmsg.toString();
+                            callback(err,"failed");
+                        } else {
+                            if (result.result.ok) {
+                                callback(null,"successfully added");
+                            } else {
+                                callback(null,"could not add");
+                            }
+                        }
+                    });
                 });
-                })
-            break;
-            
-        case "asdasd":
-            mango.connect(config.db, function(err, db) {
-            if(err) { 
-                callback(false,"Unable to connect database server")
-            }
-            var collection = db.collection(collectionName);
-            collection.findOne(queryParams, function(err, item) {
-                if(err){
-                    callback(false,"unable to get data");
+                break;
+
+            case "update":
+            var collection = db.collection(collectionName); 
+            collection.update(JSON.parse(queryParams), {$set:JSON.parse(updateParams)}, function(err, result) {
+                if (err){
+                    callback(err,null)
                 }else{
-                    callback(null,item)
+                    callback(null,"successfully updated")
                 }
             });
-            })
-        break;
-            
-        default:
+
             break;
-    }
+
+            case "delete":
+                var collection = db.collection(collectionName);
+                collection.remove(JSON.parse(queryParams), function(err, result) {
+                    if (err) {
+                        callback(err,null);
+                    }else{
+                        callback(null,"Succesfully deleted")
+                    }
+                }); 
+           }
+    })
 }

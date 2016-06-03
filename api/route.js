@@ -14,5 +14,6 @@ module.exports = function(app){
     .post(apiFunctions.changePasswod);
  app.route("/GenericCrud")
     .post(apiFunctions.genericfunctions);
-
+ app.route("/UVCrud")
+    .post(apiFunctions.bindUserVehicleCRUD);
 };

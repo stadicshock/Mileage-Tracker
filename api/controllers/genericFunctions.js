@@ -29,7 +29,7 @@ exports.alreadyExist=function(err,key) {
 exports.genericCRUD=function(action,collectionName,insertObj,queryParams,updateParams,callback) {
     mango.connect(config.db, function(err, db) {
         if(err) { 
-            callback(false,"Unable to connect database server")
+            callback("Unable to connect database server",null)
         }
         var collection = db.collection(collectionName);
         switch (action) {
@@ -37,7 +37,7 @@ exports.genericCRUD=function(action,collectionName,insertObj,queryParams,updateP
             case "getAll":
                 collection.find(JSON.parse(queryParams), function(err, item) {
                     if(err){
-                        callback(false,"unable to get data");
+                        callback("Unable to get data",null);
                     }else{
                         item.toArray(callback);
                     }
@@ -45,9 +45,9 @@ exports.genericCRUD=function(action,collectionName,insertObj,queryParams,updateP
                 break;
 
             case "getOne":
-                collection.findOne(JSON.parse(queryParams), function(err, item) {
+                collection.findOne(queryParams, function(err, item) {
                     if(err){
-                        callback(false,"unable to get data");
+                        callback("Unable to get data",null);
                     }else{
                         callback(null,item)
                     }
@@ -59,17 +59,17 @@ exports.genericCRUD=function(action,collectionName,insertObj,queryParams,updateP
 
                 var collection = db.collection(collectionName);
                 helperFn.generateId(collectionName, function (err, newId) {
-                    var document=JSON.parse(insertObj);
+                    var document=insertObj;
                     document["_id"] = newId;
                     collection.insert(document, function (err, result) {
                         if (err) {
                             var errmsg = err.errmsg.toString();
-                            callback(err,null);
+                            callback(errmsg,null);
                         } else {
                             if (result.result.ok) {
-                                callback(null,"successfully added");
+                                callback(null,"Successfully added");
                             } else {
-                                callback(null,"could not add");
+                                callback("Could not add", null);
                             }
                         }
                     });
@@ -78,12 +78,13 @@ exports.genericCRUD=function(action,collectionName,insertObj,queryParams,updateP
 
             case "update":
             var collection = db.collection(collectionName); 
-            collection.update(JSON.parse(queryParams), {$set:JSON.parse(updateParams)}, function(err, result) {
+            collection.update(queryParams, {$set:updateParams}, function(err, result) {
                 if (err){
-                    callback(err,null)
+                    var errmsg = err.errmsg.toString();
+                    callback(errmsg,null)
 
                 }else{
-                    callback(null,"successfully updated")
+                    callback(null,"Successfully updated")
                 }
             });
 
@@ -91,9 +92,10 @@ exports.genericCRUD=function(action,collectionName,insertObj,queryParams,updateP
 
             case "delete":
                 var collection = db.collection(collectionName);
-                collection.remove(JSON.parse(queryParams), function(err, result) {
+                collection.remove(queryParams, function(err, result) {
                     if (err) {
-                        callback(err,null);
+                        var errmsg = err.errmsg.toString();
+                        callback(errmsg,null);
                     }else{
                         callback(null,"Succesfully deleted")
                     }

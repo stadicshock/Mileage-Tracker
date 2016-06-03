@@ -64,7 +64,7 @@ exports.genericCRUD=function(action,collectionName,insertObj,queryParams,updateP
                     collection.insert(document, function (err, result) {
                         if (err) {
                             var errmsg = err.errmsg.toString();
-                            callback(err,"failed");
+                            callback(err,null);
                         } else {
                             if (result.result.ok) {
                                 callback(null,"successfully added");
@@ -81,6 +81,7 @@ exports.genericCRUD=function(action,collectionName,insertObj,queryParams,updateP
             collection.update(JSON.parse(queryParams), {$set:JSON.parse(updateParams)}, function(err, result) {
                 if (err){
                     callback(err,null)
+
                 }else{
                     callback(null,"successfully updated")
                 }

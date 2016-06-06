@@ -1,7 +1,7 @@
 var apiFunctions = require('./controllers/apiFunctions');
-var genericFuncs = require('./controllers/genericFunctions'); 
+var genericFuncs = require('./controllers/genericFunctions');
+ 
 module.exports = function(app){
-    console.log("im here");
   app.route('/signup')
     .post(apiFunctions.signup);
   app.route('/forgotpassword')
@@ -14,5 +14,12 @@ module.exports = function(app){
     .post(apiFunctions.changePasswod);
  app.route("/GenericCrud")
     .post(apiFunctions.genericfunctions);
-
+ app.route("/UVCrud")
+    .post(apiFunctions.bindUserVehicleCRUD);
+ app.route("/AddRefill")
+    .post(apiFunctions.addRefilling);
+ app.route("/UpdateRefill")
+    .post(apiFunctions.updateRefilling);
+ app.route("/DeleteRefill")
+    .post(apiFunctions.deleteRefilling);
 };

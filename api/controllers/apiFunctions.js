@@ -124,10 +124,7 @@ exports.genericfunctions = function(req,res){
        res.json({"result":result})
     });
 }
-<<<<<<< HEAD
-=======
 
->>>>>>> d7e4a5ea4cfedfff0edb269883461fd4231f4796
 exports.bindUserVehicleCRUD = function(req, res){
     // vehicle ID, user ID,vehicle name
     var params = req.body;
@@ -179,7 +176,6 @@ exports.bindUserVehicleCRUD = function(req, res){
                     }
     });
 }
-<<<<<<< HEAD
 
 exports.addRefilling = function(req,res){
     var params= req.body;
@@ -265,5 +261,4 @@ exports.deleteRefilling = function(req,res){
    }
    
 }
-=======
->>>>>>> d7e4a5ea4cfedfff0edb269883461fd4231f4796
+
